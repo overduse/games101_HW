@@ -52,9 +52,9 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
     // Then return it.
     Eigen::Matrix4f perspective;
     perspective <<
-        zNear,    0,    0,    0,
-            0,zNear,    0,    0,
-            0,    0,zNear+zFar, -zNear*zFar,
+        -zNear,    0,    0,    0,
+            0,-zNear,    0,    0,
+            0,    0,-(zNear+zFar), -zNear*zFar,
             0,    0,    1,    0;
 
     double halfradian = eye_fov * MY_PI /2./180.;
@@ -67,14 +67,14 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
     transfer <<
       1,  0,  0,  -(right+left)/2.,
       0,  1,  0,  -(top+bottom)/2.,
-      0,  0,  1,  -(zNear+zFar)/2.,
+      0,  0,  1,  (zNear+zFar)/2.,
       0,  0,  0,  1;
 
     Eigen:Matrix4f scale;
     scale <<
       2./(right-left), 0, 0, 0,
       0, 2./(top-bottom), 0, 0,
-      0, 0, 2./(zNear-zFar), 0,
+      0, 0, 2./-(zNear-zFar), 0,
       0, 0, 0, 1;
 
     projection = scale*transfer*perspective;
