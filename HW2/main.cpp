@@ -53,7 +53,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
     double top = zNear * tan(halfradian);
     double bottom = -top;
     double right = top * aspect_ratio;
-    double left = -top;
+    double left = -right;
 
     Eigen::Matrix4f transfer;
     transfer <<
@@ -66,7 +66,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
     scale <<
       2./(right-left), 0, 0, 0,
       0, 2./(top-bottom), 0, 0,
-      0, 0, 2./(-zNear+zFar), 0,
+      0, 0, 2./-(-zNear+zFar), 0,
       0, 0, 0, 1;
 
     projection = scale*transfer*perspective;
